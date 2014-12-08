@@ -22,15 +22,29 @@ class Command extends App
         // \033[33m \033[0m  yellow
         // \033[32m \033[0m  green
         // \033[31m \033[0m  red
-        $help  = "\n";
-        $help .= "\033[33mUsage:\033[0m\n";
+        $help .= $this->yello("Usage:") . "\n";
         $help .= "  --command=\"CommandName\" [other options]\n";
         $help .= "\n";
-        $help .= "    \033[32mphp run --command=\"Demo\" --name=\"Parker\"\033[0m\n";
+        $help .= "    " . $this->green("php run --command=\"CommandName\" --argument=\"ArgumentValue\"") . "\n";
         $help .= "  \n";
         $help .= "  This example will run DemoCommand and all options can be received by DemoCommand\n";
         $help .= "\n";
 
         return $help;
+    }
+
+    protected function yellow($string)
+    {
+        return "\033[33m{$string}\033[0m";
+    }
+
+    protected function green($string)
+    {
+        return "\033[32m{$string}\033[0m";
+    }
+
+    protected function red($string)
+    {
+        return "\033[31m{$string}\033[0m";
     }
 }
