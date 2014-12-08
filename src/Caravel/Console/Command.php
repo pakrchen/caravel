@@ -22,12 +22,12 @@ class Command extends App
         // \033[33m \033[0m  yellow
         // \033[32m \033[0m  green
         // \033[31m \033[0m  red
-        $help .= $this->yellow("Usage:") . "\n";
+        $help  = $this->yellow("Usage:") . "\n";
         $help .= "  --command=\"CommandName\" [other options]\n";
         $help .= "\n";
-        $help .= "    " . $this->green("php run --command=\"CommandName\" --argument=\"ArgumentValue\"") . "\n";
+        $help .= "    " . $this->green("php run --command=\"Demo\" [anything else]") . "\n";
         $help .= "  \n";
-        $help .= "  This example will run DemoCommand and all options can be received by DemoCommand\n";
+        $help .= "  This command will execute DemoCommand::run(). Remember --command is required.\n";
         $help .= "\n";
 
         return $help;
