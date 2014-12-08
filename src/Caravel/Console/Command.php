@@ -33,17 +33,17 @@ class Command extends App
         return $help;
     }
 
-    protected function yellow($string)
+    public function yellow($string)
     {
         return "\033[33m{$string}\033[0m";
     }
 
-    protected function green($string)
+    public function green($string)
     {
         return "\033[32m{$string}\033[0m";
     }
 
-    protected function red($string)
+    public function red($string)
     {
         return "\033[31m{$string}\033[0m";
     }
