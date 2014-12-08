@@ -33,6 +33,11 @@ class Command extends App
         return $help;
     }
 
+    public function error($error)
+    {
+        return $this->red($error) . "\n";
+    }
+
     protected function yellow($string)
     {
         return "\033[33m{$string}\033[0m";
