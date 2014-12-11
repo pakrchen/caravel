@@ -16,7 +16,7 @@ class Commander extends App
         ));
     }
 
-    public function run(array $config)
+    public function execute(array $config)
     {
         $application = new Application();
 
