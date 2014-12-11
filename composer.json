@@ -2,7 +2,11 @@
   "name": "pakrchen/caravel",
   "description": "A plain PHP MVC framework.",
   "require": {
-    "php": ">=5.3.0"
+
+    "php": ">=5.3.0",
+
+    "symfony/console": "dev-master"
+
   },
   "autoload": {
     "psr-0": {
