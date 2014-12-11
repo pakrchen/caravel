@@ -22,13 +22,12 @@ class App
 
     public function __construct()
     {
+        // import what you've defined
+        require_once self::getAppRoot() . "/custom.php";
     }
 
     public function run()
     {
-        // import what you've defined
-        require_once self::getAppRoot() . "/custom.php";
-
         ob_start();
         try {
             $this->parse();

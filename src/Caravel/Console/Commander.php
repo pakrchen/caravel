@@ -2,6 +2,8 @@
 
 namespace Caravel\Console;
 
+use Symfony\Component\Console\Application;
+
 class Commander extends App
 {
     public function __construct()
@@ -12,8 +14,20 @@ class Commander extends App
         $this->autoload(array(
             self::getAppRoot() . "/commands",
         ));
+    }
 
-        // import what you've defined
-        require_once self::getAppRoot() . "/custom.php";
+    public function run(array $config)
+    {
+        $application = new Application();
+
+        foreach ($config as $command) {
+            if (!class_exists($command)) {
+                print_r(Command::red("Command Not Found: [{$command}]\n"));
+            } else {
+                $application->add(new $command);
+            }
+        }
+
+        $application->run();
     }
 }
