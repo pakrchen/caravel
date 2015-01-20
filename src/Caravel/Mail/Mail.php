@@ -50,6 +50,13 @@ class Mail
         // Create a message
         $message = new Message(new \Swift_Message);
 
+        $config = Config::get("mail");
+
+        if (!empty($config->from['address'])) {
+            $name = isset($config->from['name']) ? $config->from['name'] : "";
+            $message->from($config->from['address'], $name);
+        }
+
         return $message;
     }
 
@@ -82,7 +89,7 @@ class Mail
                 ->setPort($config->port)
                 ->setEncryption($config->encryption)
                 ->setUsername($config->username)
-                ->setPassword($password)
+                ->setPassword($config->password)
             ;
 
         } else {
