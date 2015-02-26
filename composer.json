@@ -3,6 +3,8 @@
 
   "description": "A plain PHP MVC framework.",
 
+  "license": "MIT",
+
   "require": {
 
     "php": ">=5.3.0",
