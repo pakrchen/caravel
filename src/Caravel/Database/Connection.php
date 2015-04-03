@@ -82,6 +82,9 @@ class Connection
     {
         $sth = $this->store->prepare($sql);
         $sth->execute($params);
+
+        $this->handleOperationError($sth);
+
         $result = $sth->fetchAll($this->fetchMode);
 
         return $result;
@@ -138,7 +141,24 @@ class Connection
     {
         $sth = $this->store->prepare($sql);
 
-        return $sth->execute($params);
+        $result = $sth->execute($params);
+
+        $this->handleOperationError($sth);
+
+        return $result;
+    }
+
+    /**
+     * $error[0] SQLSTATE error code
+     * $error[1] Driver specific error code
+     * $error[2] Driver specific error message
+     */
+    public function handleOperationError($statementHandler)
+    {
+        $error = $statementHandler->errorInfo();
+        if (!empty($error[2])) {
+            throw new \RuntimeException("ERROR {$error[1]} ({$error[0]}): {$error[2]}");
+        }
     }
 
     public function setFetchMode($fetchMode)
