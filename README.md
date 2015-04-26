@@ -12,11 +12,11 @@ A plain PHP MVC framework.
       "repositories": [
         {
           "type": "vcs",
-          "url": "https://github.com/pakrnet/caravel"
+          "url": "https://github.com/pakrchen/caravel"
         }
       ],
       "require": {
-        "pakrnet/caravel": "dev-master"
+        "pakrchen/caravel": "dev-master"
       }
     }
     </pre>
@@ -115,9 +115,9 @@ A plain PHP MVC framework.
 
 I believe that a pratical example is better than any word.
 
-You can visit <https://github.com/pakrnet/coolblog> to find a simple blog application which is based on Caravel framework. **It is strongly recommeded**.
+You can visit <https://github.com/pakrchen/coolblog> to find a simple blog application which is based on Caravel framework. **It is strongly recommeded**.
 
-A simple demo is also offered in the package. You can find it in your-project-root-directory/vendor/pakrnet/caravel/demo to preview what your project would look like.
+A simple demo is also offered in the package. You can find it in your-project-root-directory/vendor/pakrchen/caravel/demo to preview what your project would look like.
 
 ## An nginx configuration for you
 
