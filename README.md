@@ -9,12 +9,6 @@ A plain PHP framework.
 
     <pre>
     {
-      "repositories": [
-        {
-          "type": "vcs",
-          "url": "https://github.com/pakrchen/caravel"
-        }
-      ],
       "require": {
         "pakrchen/caravel": "dev-master"
       }
