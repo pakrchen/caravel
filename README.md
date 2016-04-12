@@ -109,9 +109,7 @@ A plain PHP framework.
 
 I believe that a pratical example is better than any word.
 
-You can visit <https://github.com/pakrchen/mbhit> to find a simple blog application which is based on Caravel framework. **It is strongly recommeded**.
-
-A simple demo is also offered in [caravel-mvc](https://github.com/pakrchen/caravel-mvc). You can find it in <https://github.com/pakrchen/caravel-mvc> to preview what your project would look like.
+A simple demo is offered in [caravel-mvc](https://github.com/pakrchen/caravel-mvc). You can find it in <https://github.com/pakrchen/caravel-mvc> to preview what your project would look like. **It is strongly recommeded**.
 
 ## An nginx configuration for you
 
