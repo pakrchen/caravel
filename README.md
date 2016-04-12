@@ -37,9 +37,9 @@ A plain PHP framework.
 
     In "app" folder, create a folder named "controllers" to store your controllers, a folder named "models" to store your models, and a folder named "views" to store your views.
 
-    That's right! This is what we call the "MVC" structure;
+    That's right! This is what we call the "MVC" structure. (see [caravel-mvc](https://github.com/pakrchen/caravel-mvc))
 
-4.  In Caravel framework, we require a "custom.php" file in the root directory to accept your custom configuration.
+4.  In Caravel framework, we require a "custom.php" file in the app directory to accept your custom configuration.
 
     For example, the configuration below tells the framework where you store your controllers and models. **This is required**.
 
@@ -86,7 +86,7 @@ A plain PHP framework.
     |
     */
 
-    Log::useFile("/tmp");
+    Log::useFile("/tmp/caravel.log");
 
     /*
     |--------------------------------------------------------------------------
@@ -109,9 +109,9 @@ A plain PHP framework.
 
 I believe that a pratical example is better than any word.
 
-You can visit <https://github.com/pakrchen/coolblog> to find a simple blog application which is based on Caravel framework. **It is strongly recommeded**.
+You can visit <https://github.com/pakrchen/mbhit> to find a simple blog application which is based on Caravel framework. **It is strongly recommeded**.
 
-A simple demo is also offered in the package. You can find it in your-project-root-directory/vendor/pakrchen/caravel/demo to preview what your project would look like.
+A simple demo is also offered in [caravel-mvc](https://github.com/pakrchen/caravel-mvc). You can find it in <https://github.com/pakrchen/caravel-mvc> to preview what your project would look like.
 
 ## An nginx configuration for you
 
