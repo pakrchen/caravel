@@ -1,7 +1,7 @@
 caravel
 =======
 
-A plain PHP framework.
+A plain PHP framework. (To quickly build a web app, see <https://github.com/pakrchen/caravel-mvc>.)
 
 ## How to use Caravel framework
 
