@@ -68,7 +68,7 @@ A plain PHP framework. (to quickly build a web app, see [caravel-mvc](https://gi
     ))->register();
     </pre>
 
-    This means that you can change the name of the folder where you store your controllers as long as your define it in "custom.php".
+    This means that you can change the name of the folder where you store your controllers as long as you define it in "custom.php".
 
     Obviously, you can also add additional folders such as "libraries" and let Caravel know how to find it.
 
