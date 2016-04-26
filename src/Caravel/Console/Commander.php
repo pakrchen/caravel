@@ -16,9 +16,16 @@ class Commander extends App
         ));
     }
 
-    public function execute(array $config)
+    /**
+     * If $catchException, application will render Exception internally.
+     * If $autoExit, application will exit in this function.
+     */
+    public function execute(array $config, $catchException = true, $autoExit = true)
     {
         $application = new Application();
+
+        $application->setCatchExceptions($catchException);
+        $application->setAutoExit($autoExit);
 
         foreach ($config as $command) {
             if (!class_exists($command)) {
