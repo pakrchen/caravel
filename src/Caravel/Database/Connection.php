@@ -157,7 +157,7 @@ class Connection
     {
         $error = $statementHandler->errorInfo();
         if (!empty($error[2])) {
-            throw new \RuntimeException("ERROR {$error[1]} ({$error[0]}): {$error[2]}");
+            throw new \RuntimeException("ERROR {$error[1]} ({$error[0]}): {$error[2]}", $error[1]);
         }
     }
 
