@@ -2,7 +2,7 @@
 
 namespace Caravel\Log;
 
-use Caravel\Http\Response;
+use Caravel\Http\Request;
 
 /**
  * https://tools.ietf.org/html/rfc5424
@@ -46,66 +46,79 @@ class Log
         return self::$instance;
     }
 
-    public function debug($message, array $addition = array())
+    public static function debug($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_DEBUG, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_DEBUG, $addition);
     }
 
-    public function info($message, array $addition = array())
+    public static function info($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_INFO, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_INFO, $addition);
     }
 
-    public function notice($message, array $addition = array())
+    public static function notice($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_NOTICE, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_NOTICE, $addition);
     }
 
-    public function warning($message, array $addition = array())
+    public static function warning($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_WARNING, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_WARNING, $addition);
     }
 
-    public function error($message, array $addition = array())
+    public static function error($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_ERROR, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_ERROR, $addition);
     }
 
-    public function critical($message, array $addition = array())
+    public static function critical($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_CRITICAL, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_CRITICAL, $addition);
     }
 
-    public function alert($message, array $addition = array())
+    public static function alert($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_ALERT, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_ALERT, $addition);
     }
 
-    public function emergency($message, array $addition = array())
+    public static function emergency($message, array $addition = array())
     {
-        $this->write($message, self::LEVEL_EMERGENCY, $addition);
+        $instance = self::getInstance();
+        $instance->write($message, self::LEVEL_EMERGENCY, $addition);
     }
 
-    public function exception(\Exception $e)
+    public static function exception(\Exception $e)
     {
+        $instance = self::getInstance();
+
         $trace = $e->getTrace();
         $class = $trace[0]['class'];
         $type = $trace[0]['type'];
         $function = $trace[0]['function'];
         $method = $class . $type . $function;
 
-        $this->write($method . " " . $e->getMessage());
+        $instance->write($e->getMessage(), self::LEVEL_ERROR, $trace);
     }
 
     /**
-     * [Timestamp] [IP address] [Log ID] [Severity Level] [Method] [Message Text] [Additional Information]
+     * [Timestamp] [Log ID] [IP address] [Severity Level] [Source] [Message Text] [Additional Information]
      */
-    public function write($message, $level = self::LEVEL_ERROR, array $addition = array())
+    protected function write($message, $level, array $addition = array())
     {
+        // 0: function write; 1: function debug|info|notice...; 2: function of caller
+        $traceLevel = 2;
+
         $trace = debug_backtrace();
-        $class = empty($trace[1]["class"]) ? "" : $trace[1]["class"];
-        $type = empty($trace[1]["type"]) ? "" : $trace[1]["type"];
-        $function = empty($trace[1]["function"]) ? "" : $trace[1]["function"];
+        $class = empty($trace[$traceLevel]["class"]) ? "" : $trace[$traceLevel]["class"];
+        $type = empty($trace[$traceLevel]["type"]) ? "" : $trace[$traceLevel]["type"];
+        $function = empty($trace[$traceLevel]["function"]) ? "" : $trace[$traceLevel]["function"];
         $method = $class . $type . $function;
 
         if (empty($this->file)) {
@@ -115,43 +128,36 @@ class Log
         }
 
         $time     = $this->bracket(date("Y-m-d H:i:s"));
-        $ip       = $this->bracket(Request::getClientIp(true));
         $logId    = $this->bracket($this->logId);
+        $ip       = $this->bracket(Request::getClientIp(true));
         $level    = $this->bracket($level);
-        $method   = $this->bracket($method);
+        $source   = $this->bracket($method);
         $message  = $this->bracket($message);
         $addition = json_encode($addition);
 
-        $log = implode(" ", array($time, $ip, $logId, $level, $method, $message, $addition));
+        $log = implode(" ", array($time, $logId, $ip, $level, $source, $message, $addition));
 
-        $this->to($log, $this->file);
+        self::to($log, $this->file);
     }
 
-    public function to($message, $file)
+    public static function to($message, $file)
     {
         error_log($message . "\n", 3, $file);
     }
 
-    public function useFile($file)
+    public static function useFile($file)
     {
-        $this->file = $file;
+        $instance = self::getInstance();
+        $instance->file = $file;
     }
 
     protected function generateLogId()
     {
-        return uniqid();
+        return ((microtime(true) * 100000) & 0x7FFFFFFF);
     }
 
     protected function bracket($message)
     {
         return "[{$message}]";
-    }
-
-    /**
-     * All public methods can be called statically.
-     */
-    public static function __callStatic($method, $parameters)
-    {
-        return call_user_func_array(array(self::getInstance(), $method), $parameters);
     }
 }
