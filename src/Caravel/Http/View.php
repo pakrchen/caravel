@@ -4,7 +4,7 @@ namespace Caravel\Http;
 
 use Caravel\Console\App;
 
-class View extends Response
+class View
 {
     public static function make($view, array $params = array())
     {
@@ -14,7 +14,7 @@ class View extends Response
             "Content-Type: text/html",
         );
 
-        return new Response($headers, $body);
+        return new Response($body, $headers);
     }
 
     public static function get($view, array $params = array())

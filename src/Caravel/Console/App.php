@@ -18,7 +18,10 @@ class App
     protected static $errorHandler;
 
     // a clouser that would be called before dispatch
-    protected static $filter;
+    protected static $before;
+
+    // a clouser that would be called after dispatch
+    protected static $after;
 
     public function __construct()
     {
@@ -61,13 +64,12 @@ class App
 
     protected function dispatch()
     {
-        if (!empty(self::$filter)) {
-            $response = call_user_func(self::$filter);
-            if (!empty($response)) {
-                return $response;
-            }
+        // before dispatch
+        if (!empty(self::$before) && ($response = call_user_func(self::$before))) {
+            return $response;
         }
 
+        // dispatch
         if (!class_exists(self::$controller)) {
             throw new \BadMethodCallException("Controller Not Found: [" . self::$controller . "]", 100);
         }
@@ -76,7 +78,14 @@ class App
             throw new \BadMethodCallException("Method Not Found: [" . self::$action . "]", 100);
         }
 
-        return call_user_func(array(new self::$controller, self::$action));
+        $response = call_user_func(array(new self::$controller, self::$action));
+
+        // after dispatch
+        if (!empty(self::$after)) {
+            $response = call_user_func(self::$after, $response) ?: $response;
+        }
+
+        return $response;
     }
 
     public function render($response)
@@ -102,11 +111,19 @@ class App
     }
 
     /**
-     * filter injection, run before dispatch
+     * before injection, run before dispatch
      */
-    public static function filter(\Closure $filter)
+    public static function before(\Closure $before)
     {
-        self::$filter = $filter;
+        self::$before = $before;
+    }
+
+    /**
+     * after injection, run after dispatch
+     */
+    public static function after(\Closure $after)
+    {
+        self::$after = $after;
     }
 
     /**

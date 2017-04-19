@@ -10,7 +10,7 @@ class Response
     protected $body;
     protected $statusCode;
 
-    public function __construct(array $headers = array(), $body = "", $statusCode = null)
+    public function __construct($body = "", array $headers = array(), $statusCode = null)
     {
         $this->headers = $headers;
         $this->body = $body;
@@ -50,7 +50,7 @@ class Response
             "Content-Type: text/javascript",
         );
 
-        return new Response($headers, $body);
+        return new Response($body, $headers);
     }
 
     public static function redirect($url, $statusCode = 302)
@@ -59,12 +59,12 @@ class Response
             "Location: {$url}",
         );
 
-        return new Response($headers, "", $statusCode);
+        return new Response("", $headers, $statusCode);
     }
 
     public static function status($statusCode = 200)
     {
-        return new Response(array(), "", $statusCode);
+        return new Response("", array(), $statusCode);
     }
 
     public static function file($filename)
@@ -76,7 +76,7 @@ class Response
 
         $body = file_get_contents($filename);
 
-        return new Response($headers, $body);
+        return new Response($body, $headers);
     }
 
     public function setStatusCode($statusCode)
