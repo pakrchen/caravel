@@ -37,6 +37,16 @@ class Response
         echo $this->body;
     }
 
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function setBody($body)
+    {
+        $this->body = $body;
+    }
+
     public static function json(array $response, $callback = null)
     {
         if (!empty($callback)) {
