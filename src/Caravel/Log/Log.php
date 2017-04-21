@@ -46,55 +46,55 @@ class Log
         return self::$instance;
     }
 
-    public static function debug($message, array $addition = array())
+    public static function debug($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_DEBUG, $addition);
+        $instance->write($message, self::LEVEL_DEBUG, $addition, $to);
     }
 
-    public static function info($message, array $addition = array())
+    public static function info($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_INFO, $addition);
+        $instance->write($message, self::LEVEL_INFO, $addition, $to);
     }
 
-    public static function notice($message, array $addition = array())
+    public static function notice($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_NOTICE, $addition);
+        $instance->write($message, self::LEVEL_NOTICE, $addition, $to);
     }
 
-    public static function warning($message, array $addition = array())
+    public static function warning($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_WARNING, $addition);
+        $instance->write($message, self::LEVEL_WARNING, $addition, $to);
     }
 
-    public static function error($message, array $addition = array())
+    public static function error($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_ERROR, $addition);
+        $instance->write($message, self::LEVEL_ERROR, $addition, $to);
     }
 
-    public static function critical($message, array $addition = array())
+    public static function critical($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_CRITICAL, $addition);
+        $instance->write($message, self::LEVEL_CRITICAL, $addition, $to);
     }
 
-    public static function alert($message, array $addition = array())
+    public static function alert($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_ALERT, $addition);
+        $instance->write($message, self::LEVEL_ALERT, $addition, $to);
     }
 
-    public static function emergency($message, array $addition = array())
+    public static function emergency($message, array $addition = array(), $to = "")
     {
         $instance = self::getInstance();
-        $instance->write($message, self::LEVEL_EMERGENCY, $addition);
+        $instance->write($message, self::LEVEL_EMERGENCY, $addition, $to);
     }
 
-    public static function exception(\Exception $e)
+    public static function exception(\Exception $e, $to = "")
     {
         $instance = self::getInstance();
 
@@ -104,13 +104,13 @@ class Log
         $function = $trace[0]['function'];
         $method = $class . $type . $function;
 
-        $instance->write($e->getMessage(), self::LEVEL_ERROR, $trace);
+        $instance->write($e->getMessage(), self::LEVEL_ERROR, $trace, $to);
     }
 
     /**
      * [Timestamp] [Log ID] [IP address] [Severity Level] [Source] [Message Text] [Additional Information]
      */
-    protected function write($message, $level, array $addition = array())
+    protected function write($message, $level, array $addition = array(), $to = "")
     {
         // 0: function write; 1: function debug|info|notice...; 2: function of caller
         $traceLevel = 2;
@@ -137,7 +137,7 @@ class Log
 
         $log = implode(" ", array($time, $logId, $ip, $level, $source, $message, $addition));
 
-        self::to($log, $this->file);
+        self::to($log, $to ?: $this->file);
     }
 
     public static function to($message, $file)
