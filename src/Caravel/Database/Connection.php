@@ -165,4 +165,9 @@ class Connection
     {
         $this->fetchMode = $fetchMode;
     }
+
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array(array($this->store, $method), $parameters);
+    }
 }
